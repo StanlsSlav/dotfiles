@@ -94,15 +94,17 @@ zstyle ':omz:update' frequency 3
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  git
+
   # Make aliasing easier
   aliases
   alias-finder
+  common-aliases
+
+  docker
 
   # More aliases, more colors
   colored-man-pages colorize command-not-found man python
-
-  # Double esc to correct the previous failed command
-  thefuck
 
   # Works once you have explored the target directory
   # Ex: cd /home/jarvis
@@ -169,42 +171,33 @@ setopt appendhistory
 # Aliases
 # ==============
 # Mostly covered by "aliases" plugin
-alias update='sudo apt update -y && sudo apt upgrade -y; sudo apt autoremove; sudo updatedb; rustup update'
+alias update='sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove; sudo apt autoclean; sudo updatedb; rustup update'
 
 # Miscellaneous
 alias calc='mate-calculator -s ' \
       listen='pwncat -k -l' \
-      exa='exa -hG' \
-      ls='exa --color=always' \
-      cat='bat'
+      exa='exa -hG --icons' \
+      cat='bat' \
+      nvim='lvim' \
+      extract_vsc='sudo rm -rf /usr/share/codium && sudo mkdir /usr/share/codium && sudo tar zxf ~/Downloads/VSCodium-* --directory=/usr/share/codium'
 
-# Executables
-alias cyberchef='firefox /opt/CyberChef/CyberChef_v9.32.3.html' \
-      ghidra='/opt/ghidra/ghidraRun' \
-      ida='/opt/idafree-8.0/ida64' \
-      stegsolve='/opt/stegsolve.jar' \
-      ciphey='docker run -it --rm --name ciphey remnux/ciphey' \
-      rustscan='docker run -it --rm --name rustscan rustscan/rustscan -a' \
-      stegseek='docker run --rm -it -v "$(pwd):/steg" --name stegseek rickdejager/stegseek' \
-      afl='docker run -ti -v $(pwd):/src aflplusplus/aflplusplus' \
-      sonicvisualizer='/opt/SonicVisualiser-4.4-x86_64.AppImage' \
-      jdgui='java -jar /opt/jd-gui-1.6.6.jar' \
-      neo4j='docker run -d -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/s3cr3t neo4j'
+# Listing
+alias ls='exa --color=always' \
+      la='l -aG'
 
-
-# ==============
-# Functions
-# ==============
-function hex-encode() {
+function hex-encode()
+{
   echo "$@" | xxd -p
 }
 
-function hex-decode() {
+function hex-decode()
+{
   echo "$@" | xxd -p -r
 }
 
-function rot13() {
-  echo "$@" | tr "A-Za-z" "N-AZ-Mn-za-m"
+function rot13()
+{
+  echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 }
 
 # Show aliases in terminal when used
@@ -214,7 +207,7 @@ ZSH_ALIAS_FINDER_AUTOMATIC=true
 PATH=$PATH:~/.local/bin
 
 # Base editor is nvim
-export EDITOR=/usr/bin/nvim
+export EDITOR=$(which nvim)
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
