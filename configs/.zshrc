@@ -95,16 +95,16 @@ zstyle ':omz:update' frequency 3
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  docker
+  python
 
   # Make aliasing easier
   aliases
   alias-finder
   common-aliases
 
-  docker
-
-  # More aliases, more colors
-  colored-man-pages colorize command-not-found man python
+  # More aliases and colors
+  colored-man-pages colorize command-not-found man
 
   # Works once you have explored the target directory
   # Ex: cd /home/jarvis
